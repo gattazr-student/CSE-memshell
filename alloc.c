@@ -17,7 +17,7 @@ void mem_init(){
     wTailleStructFb = sizeof(FreeBlock);
 
     FreeBlock *wFirstBlock = (FreeBlock*) mem_heap;
-    FreeBlock *wFreeBlock = (FreeBlock*)mem_heap + wTailleStructFb;
+    FreeBlock *wFreeBlock = (FreeBlock*)((char *) mem_heap + wTailleStructFb);
 
     wFirstBlock->size = 0;
     wFirstBlock->next = wFreeBlock;
@@ -37,8 +37,8 @@ void mem_init(){
  */
 void *mem_alloc(size_t size){
     /* TODO: write function */
-    FreeBlock* currentPtr = mem_heap;
-    FreeBlock* oldPtr = mem_heap;
+    FreeBlock* currentPtr = (FreeBlock*)mem_heap;
+    FreeBlock* oldPtr = (FreeBlock*)mem_heap;
     if (size < sizeof(FreeBlock))
     {
       size = sizeof(FreeBlock);
@@ -56,13 +56,13 @@ void *mem_alloc(size_t size){
 
     //On a trouve un espace memoire disponible et assez grand.
     // L'espace mémoire disponible est plus grand que requis.
-    fb* returnPtr = currentPtr;
+    FreeBlock* returnPtr = currentPtr;
     if (returnPtr->size == size)
     {
       oldPtr->next = currentPtr->next;
     } else
     {
-      currentPtr = returnPtr+size;
+      currentPtr = (FreeBlock*) ((char*)returnPtr + size);
       currentPtr->size = returnPtr->size - size;
       currentPtr->next = returnPtr->next;
       oldPtr->next = currentPtr;
