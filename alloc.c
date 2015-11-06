@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <stdio.h>
 #include "alloc.h"
 
 /**
@@ -46,8 +47,17 @@ void mem_free(void *zone, size_t size){
 
 /**
  * mem_free
- * @param print :
+ * Utilise la fonction passé en paramètre pour afficher les spécifications de toutes les zones libres du heap.
+ * @param print : procedure affichant le bloc mémoire à une adresse et taille passé en paramètre
  */
 void mem_show(void (*print)(void *zone, size_t size)){
     /* TODO: write function */
+    FreeBlock *wCurrentBlock = (FreeBlock*) mem_heap;
+    int wI = 0;
+    while(wCurrentBlock != NULL){
+        printf("%d : ", wI);
+        print(wCurrentBlock, wCurrentBlock->size);
+        wCurrentBlock = wCurrentBlock->next;
+        wI++;
+    }
 }
