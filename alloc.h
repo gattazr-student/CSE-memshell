@@ -14,4 +14,9 @@ void *mem_alloc(size_t size);
 void mem_free(void *zone, size_t size);
 void mem_show(void (*print)(void *zone, size_t size));
 
+typedef struct fb {
+	size_t size;
+	struct fb *next ;
+} FreeBlock;
+
 #endif
