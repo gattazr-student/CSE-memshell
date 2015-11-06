@@ -397,14 +397,14 @@ int main() {
 
 			case INIT:
 
-				printf("R�initialisation de la m�moire (%d octets)...", HEAP_SIZE);
+				printf("Réinitialisation de la mémoire (%d octets)...", HEAP_SIZE);
 				mem_init();
 				printf("OK\n");
 				break;
 
 			case SHOW:
 
-				printf("M�moire initialement disponible : %d octets\n", HEAP_SIZE);
+				printf("Mémoire initialement disponible : %d octets\n", HEAP_SIZE);
 				mem_show(&mem_print);
 				break;
 
@@ -417,7 +417,7 @@ int main() {
 				res = mem_alloc(args.size);
 				/* si une erreur a lieu, on affiche 0 */
 				if (res == NULL) {
-					printf("Erreur : �chec de l'allocation (fonction mem_alloc, retour=NULL)\n");
+					printf("Erreur : échec de l'allocation (fonction mem_alloc, retour=NULL)\n");
 				} else {
 					id = get_id(res, args.size);
 					if (id == 0) {
