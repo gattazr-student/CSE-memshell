@@ -39,6 +39,11 @@ void *mem_alloc(size_t size){
     /* Ce pointeur est utilisé pour remplacer la valeur next du FreeBLock précédent */
     FreeBlock **wOldFBNext = &first_FB;
 
+    /* Retourne NULL si Le heap est complet */
+    if (first_FB == NULL){
+        return NULL;
+    }
+
     /* Calcul de la vrai taille du bloc à allouer */
     int wFreeBlockSize = sizeof(FreeBlock);
     int wDiff = size % wFreeBlockSize;
@@ -92,11 +97,9 @@ void mem_free(void *zone, size_t size){
  */
 void mem_show(void (*print)(void *zone, size_t size)){
     FreeBlock *wCurrentBlock = first_FB;
-    int wI = 0;
+
     while(wCurrentBlock != NULL){
-        printf("%d : ", wI);
         print(wCurrentBlock, wCurrentBlock->size);
         wCurrentBlock = wCurrentBlock->next;
-        wI++;
     }
 }
