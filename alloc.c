@@ -86,7 +86,42 @@ void *mem_alloc(size_t size){
  * @param size :
  */
 void mem_free(void *zone, size_t size){
-    /* TODO: write function */
+    FreeBlock *wCurrentFB = first_FB;
+    FreeBlock *wNewFB = NULL;
+
+
+    /* Création du FreeBlock */
+    wNewFB = (FreeBlock*) zone;
+    wNewFB->size = size;
+
+    /* si le heap est complet ou que le bloc à libérer précède le premier bloc libre */
+    if (wCurrentFB == NULL || wCurrentFB > (FreeBlock*)zone){
+        /* Chaine le FreeBlock en début de liste */
+        first_FB = wNewFB;
+        wNewFB->next = wCurrentFB;
+    }else{
+        /* Avance dans la liste des FreeBlock pour trouver le FreeBlock précdant la zone */
+        while(wCurrentFB->next != NULL && wCurrentFB->next < (FreeBlock*)zone){
+            wCurrentFB = wCurrentFB->next;
+        }
+
+        if((char*)wCurrentFB + wCurrentFB->size == (char*) zone){
+            /* Fusion avec le FreeBlock précédent */
+            wCurrentFB->size = wCurrentFB->size + size;
+            wNewFB = wCurrentFB;
+        }else{
+            /* Chaine le FreeBlock en milieu ou fin de liste */
+            wNewFB->next = wCurrentFB->next;
+            wCurrentFB->next = wNewFB;
+        }
+    }
+
+    if((char*)wNewFB + wNewFB->size == (char*) wNewFB->next){
+        /* Fusion avec le FreeBlock suivant */
+        wNewFB->size = wNewFB->size + (wNewFB->next)->size;
+        wNewFB->next = (wNewFB->next)->next;
+    }
+
 }
 
 /**
