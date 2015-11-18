@@ -400,6 +400,11 @@ int main() {
 				printf("Réinitialisation de la mémoire (%d octets)...", HEAP_SIZE);
 				mem_init();
 				printf("OK\n");
+				/* Reinitialise le tableau des blocs alloués */
+				for (int i=0; i < id_count; i++) {
+					(bloc_info_table[i]).id = 0;
+				}
+				id_count = 1;
 				break;
 
 			case SHOW:
