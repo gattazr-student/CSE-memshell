@@ -92,6 +92,12 @@ void mem_free(void *zone, size_t size){
 
     /* Création du FreeBlock */
     wNewFB = (FreeBlock*) zone;
+    /* Calcul de la vrai taille du bloc à libérer */
+    int wFreeBlockSize = sizeof(FreeBlock);
+    int wDiff = size % wFreeBlockSize;
+    if (wDiff != 0){
+        size += wFreeBlockSize - wDiff;
+    }
     wNewFB->size = size;
 
     /* si le heap est complet ou que le bloc à libérer précède le premier bloc libre */
